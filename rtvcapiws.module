@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Module to implements any Web Service from RTVC-API.
+ * module to implements any Web Service from RTVC-API.
  */
 
 // Define RTVC-API Constants.
