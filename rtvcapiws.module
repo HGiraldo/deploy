@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Module to implements any Web Service from RTVC-API.
+ */
+
+// Define RTVC-API Constants.
+define('RTVCAPI_HOST', 'https://login.rtvc.gov.co/api-rtvc/library');
+define('RTVCAPI_WSHEADER', 'header_rtvc');
+
+/**
+ * Implements hook_block_info().
+ */
+function rtvcapiws_block_info() {
+  $blocks['rtvcapi_shared_header'] = array(
+    'info' => 'API RTVC: Shared Header',
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rtvcapiws_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'rtvcapi_shared_header':
+      // Use this Cache if the site cache config don't use it.
+      $cache = cache_get('rtvcapi_ws_header');
+      if (isset($cache->data) && !empty($cache->data)) {
+        $block = $cache->data;
+      }
+      else {
+        $urlApi = RTVCAPI_HOST . '/' . RTVCAPI_WSHEADER . '/senalmemoria';
+        $getCont = drupal_json_decode(file_get_contents($urlApi));
+        if ($getCont['result']['code'] == 100) {
+          $block['content'][0] = array(
+            '#prefix' => '<div class="rtvc">',
+            '#suffix' => '</div>',
+            '#markup' => $getCont['result']['data'],
+          );
+          // Cache for 1 day for each request.
+          cache_set('rtvcapi_ws_header', $block, 'cache', 60*60*24);
+        }
+      }
+      break;
+  }
+  return $block;
+}

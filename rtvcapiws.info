@@ -1,0 +1,4 @@
+name = RTVC API Client.
+description = For Web Services from RTVC API.
+core = 7.x
+package = RTVC API
