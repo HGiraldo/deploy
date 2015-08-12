@@ -1,5 +1,8 @@
 {
   "require-dev": {
     "phpunit/phpunit": "3.7.*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "2.*"
   }
 }
