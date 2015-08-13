@@ -4,6 +4,14 @@ language: php
 php:
   - 5.5
 
+cache:
+  bundler: true
+  apt: true
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.drush/cache
+    - vendor
+
 env:
   - TEST_SUITE=validate:all
   - TEST_SUITE=behat
